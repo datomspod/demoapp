@@ -31,6 +31,7 @@ async function start() {
   });
 
   let datomData = [];
+  const datajsonfile_url = './data/'+`${datom_name}`+'.json'
   datom
     .createReadStream()
     .on("data", (res) => {
@@ -38,7 +39,7 @@ async function start() {
     })
     .on("end", () => {
       fs.writeFile(
-        "data/datom.json",
+        datajsonfile_url,
         JSON.stringify(datomData),
         "utf8",
         (err) => {
@@ -85,12 +86,12 @@ async function start() {
   });
 
   app.get("/api/datoms", function (req, res) {
-    let jsonData = require("./data/datom.json");
+    let jsonData = require(datajsonfile_url);
     res.send(jsonData);
   });
 
   app.get("/api/datoms/result", function (req, res) {
-    let jsonData = require("./data/datom.json");
+    let jsonData = require(datajsonfile_url);
     let balanceSum = 0;
     jsonData.map((item) => {
       balanceSum += item.balance * 1;
