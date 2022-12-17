@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Datom Data</title>
+    <style>
+      html {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      table {
+        border-collapse: collapse;
+      }
+      td {
+        padding: 20px 40px;
+      }
+      .datoms-table-header {
+        background: #f5f5f5;
+        height: 31px;
+        line-height: 31px;
+        color: #aaa;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.production.min.js"
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+
+      const DatomData = () => {
+        const [datoms, setDatoms] = useState(null);
+        useEffect(() => {
+          fetch("./api/datoms")
+            .then((res) => {
+              return res.json();
+            })
+            .then((data) => {
+              console.log(data);
+              setDatoms(data);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }, []);
+        return (
+          <div className="datoms-box">
+            <table className="datoms-table">
+              <tr className="datoms-table-header">
+                <td>姓名</td>
+                <td>银行</td>
+                <td>账户</td>
+                <td>余额</td>
+              </tr>
+              {datoms &&
+                datoms.map((item, idx) => {
+                  return (
+                    <tr key={idx}>
+                      <td>{item.name}</td>
+                      <td>{item.bank}</td>
+                      <td>{item.account}</td>
+                      <td>{item.balance}</td>
+                    </tr>
+                  );
+                })}
+            </table>
+          </div>
+        );
+      };
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<DatomData />);
+    </script>
+  </body>
+</html>
