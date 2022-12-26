@@ -8,8 +8,8 @@ const { marked } = require("marked");
 
 const { Client: datomsClient } = require("datomspace");
 
-const datomSpaceServerName = "My_Personal_Data_Space";
-const datom_name = "banks";
+const datomSpaceServerName = "My_Personal_Data_Space"; // the default personal data space name
+const datom_name = "banks";  // the default data type
 
 const app = express();
 const port = process.env.PORT || 3000;
